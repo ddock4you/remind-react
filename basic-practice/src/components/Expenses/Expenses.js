@@ -15,8 +15,8 @@ const Expenses = ({expenses}) => {
 
     return (
         <Fragment>
-            <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
             <Card className="expenses">
+            <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
                 {expenses.map(({title, amount, date}, i) => {
                     return (<ExpenseItem
                         title={title}
