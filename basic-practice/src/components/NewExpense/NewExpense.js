@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState} from 'react';
 import ExpenseForm from './ExpenseForm';
 import './NewExpense.css';
 
 const NewExpense = (props) => {
-    const makeExpenseData = (data) => {
+    const [isAdding, setIsAdding] = useState(false);
+    const toggleAdd = () => setIsAdding(!isAdding);
+    const makeExpenseData = (data) => {    
         const makeData = {
             ...data,
             id: Math.random()
@@ -13,7 +15,11 @@ const NewExpense = (props) => {
     
     return (
       <div className='new-expense'>
-        <ExpenseForm makeExpenseData={makeExpenseData}/>
+        {!isAdding
+            ? <button type="button" onClick={toggleAdd}>Add New Expense</button>
+            : <ExpenseForm onToggle={toggleAdd} isAdding={isAdding} makeExpenseData={makeExpenseData}/>
+        }
+        
       </div>
     );
   };

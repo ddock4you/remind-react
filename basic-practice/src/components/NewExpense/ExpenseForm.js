@@ -1,10 +1,17 @@
 import React, { useState} from "react";
 import "./ExpenseForm.css";
 
-const ExpenseForm = (props) => {
+const ExpenseForm = ({makeExpenseData, onToggle, isAdding}) => {
     const [title, setTitle] = useState('');
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState('');
+    const initForm = () => {
+        setTitle('');
+        setAmount('');
+        setDate('');
+    }
+
+    if(!isAdding) initForm();
 
     // const [userInput, setUserInput] = useState({
     //     title: '',
@@ -35,12 +42,9 @@ const ExpenseForm = (props) => {
             amount,
             date: new Date(date)
         }
-        props.makeExpenseData(expenseDate);
-        setTitle('');
-        setAmount('');
-        setDate('');
+        makeExpenseData(expenseDate);
+        initForm();
     }
-
 
     return (
         <form onSubmit={submitHandler}>
@@ -65,6 +69,7 @@ const ExpenseForm = (props) => {
                 </div>
             </div>
             <div className="new-expense__actions">
+                <button type="button" onClick={onToggle}>Cancel</button>
                 <button type="submit">Add Expense</button>
             </div>
         </form>
