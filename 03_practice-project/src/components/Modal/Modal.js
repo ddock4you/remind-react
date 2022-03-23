@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const ModalBody = styled.div`
     & {
-        display: none;
+        display: ${({ isShow }) => (isShow ? "block" : "none")};
         position: fixed;
         top: 0;
         left: 0;
@@ -67,7 +67,7 @@ const Modal = ({ modalOption: { isShow, headMessage, contentMessage }, setModalO
     };
 
     return (
-        <ModalBody className={isShow && "modal--show"}>
+        <ModalBody isShow={isShow}>
             <div className="blackout"></div>
             <div className="modal__content">
                 <header className="modal__header">{headMessage}</header>
