@@ -1,24 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import ContentBackground from "../UI/ContentBackground";
 
 // rafce
 
 const Form = styled.form`
-    & {
-        max-width: 500px;
-        margin: 40px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-    }
-
     & label {
         display: flex;
         flex-direction: column;
         margin-bottom: 10px;
     }
 
-    & label::last-child {
+    & label:last-child {
         margin-bottom: 0;
     }
 
@@ -29,28 +22,76 @@ const Form = styled.form`
 
     & label input[type="text"] {
         height: 30px;
+        padding: 0 10px;
     }
 
     & button {
         padding: 10px 20px;
         background-color: pink;
         border: none;
+        cursor: pointer;
     }
 `;
 
-const UserForm = () => {
+const UserForm = ({ addList, setModalOption }) => {
+    const [username, setUsername] = useState("");
+    const [age, setAge] = useState("");
+
+    const onChangeUsername = (event) => {
+        setUsername(event.target.value);
+    };
+
+    const onChangeAge = (event) => {
+        setAge(event.target.value.replace(/[^0-9]/g, ""));
+    };
+
+    const onSubmit = (event) => {
+        const target = event.target;
+        event.preventDefault();
+
+        if (username.length === 0) {
+            setModalOption({
+                isShow: true,
+                headMessage: "안내",
+                contentMessage: "Username이 비어있습니다.",
+            });
+            target.username.focus();
+            return;
+        }
+        if (age.length === 0) {
+            setModalOption({
+                isShow: true,
+                headMessage: "안내",
+                contentMessage: "age가 비어있습니다.",
+            });
+            target.age.focus();
+            return;
+        }
+        const id = Math.random();
+        addList({ id, username, age });
+        setUsername("");
+        setAge("");
+    };
+
     return (
-        <Form>
-            <label>
-                <span>Username</span>
-                <input type="text" name="username" />
-            </label>
-            <label>
-                <span>age</span>
-                <input type="text" name="age" />
-            </label>
-            <button type="submit">Add User</button>
-        </Form>
+        <ContentBackground>
+            <Form onSubmit={onSubmit}>
+                <label>
+                    <span>Username</span>
+                    <input
+                        onChange={onChangeUsername}
+                        type="text"
+                        name="username"
+                        value={username}
+                    />
+                </label>
+                <label>
+                    <span>age</span>
+                    <input onChange={onChangeAge} type="text" name="age" value={age} />
+                </label>
+                <button type="submit">Add User</button>
+            </Form>
+        </ContentBackground>
     );
 };
 
