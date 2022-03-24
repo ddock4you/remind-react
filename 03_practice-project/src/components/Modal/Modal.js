@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import styled from "styled-components";
 
 const ModalBody = styled.div`
@@ -61,11 +62,7 @@ const ModalBody = styled.div`
     }
 `;
 
-const Modal = ({ modalOption: { isShow, headMessage, contentMessage }, setModalOption }) => {
-    const onClick = () => {
-        setModalOption({ isModal: false, headMessage: null, ContentMessage: null });
-    };
-
+const ModalOverlay = ({ isShow, headMessage, contentMessage, onClick }) => {
     return (
         <ModalBody isShow={isShow}>
             <div className="blackout"></div>
@@ -77,6 +74,22 @@ const Modal = ({ modalOption: { isShow, headMessage, contentMessage }, setModalO
                 </footer>
             </div>
         </ModalBody>
+    );
+};
+
+const Modal = ({ modalOption: { isShow, headMessage, contentMessage }, setModalOption }) => {
+    const onClick = () => {
+        setModalOption({ isModal: false, headMessage: null, ContentMessage: null });
+    };
+
+    return ReactDOM.createPortal(
+        <ModalOverlay
+            isShow={isShow}
+            headMessage={headMessage}
+            contentMessage={contentMessage}
+            onClick={onClick}
+        />,
+        document.querySelector(".modal")
     );
 };
 
