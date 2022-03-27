@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import ContentBackground from "../UI/ContentBackground";
 
@@ -34,6 +34,9 @@ const Form = styled.form`
 `;
 
 const UserForm = ({ addList, setModalOption }) => {
+    const usernameRef = useRef();
+    const ageRef = useRef();
+
     const [username, setUsername] = useState("");
     const [age, setAge] = useState("");
 
@@ -58,6 +61,7 @@ const UserForm = ({ addList, setModalOption }) => {
             target.username.focus();
             return;
         }
+
         if (age.length === 0) {
             setModalOption({
                 isShow: true,
@@ -83,11 +87,12 @@ const UserForm = ({ addList, setModalOption }) => {
                         type="text"
                         name="username"
                         value={username}
+                        ref={usernameRef}
                     />
                 </label>
                 <label>
                     <span>age</span>
-                    <input onChange={onChangeAge} type="text" name="age" value={age} />
+                    <input onChange={onChangeAge} type="text" name="age" value={age} ref={ageRef} />
                 </label>
                 <button type="submit">Add User</button>
             </Form>
