@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useImperativeHandle, forwardRef } from "react";
 import styled from "styled-components";
 
 const StyledInput = styled.div`
@@ -48,13 +48,31 @@ const StyledInput = styled.div`
     }
 `;
 
-const Input = ({ name, type, id, value, onChange, onBlur, isValid }) => {
+const Input = forwardRef(({ name, type, id, value, onChange, onBlur, isValid }, ref) => {
+    const inputRef = useRef();
+    const activate = () => {
+        inputRef.current.focus();
+    };
+
+    useImperativeHandle(ref, () => {
+        return {
+            focus: activate,
+        };
+    });
+
     return (
         <StyledInput className={`${isValid === false ? "invalid" : ""}`}>
             <label htmlFor={id}>{name}</label>
-            <input type={type} id={id} value={value} onChange={onChange} onBlur={onBlur} />
+            <input
+                ref={inputRef}
+                type={type}
+                id={id}
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+            />
         </StyledInput>
     );
-};
+});
 
 export default Input;
