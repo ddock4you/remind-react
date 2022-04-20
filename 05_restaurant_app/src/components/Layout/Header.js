@@ -37,12 +37,12 @@ const MainImage = styled.div`
     }
 `;
 
-const Header = () => {
+const Header = ({ showModal }) => {
     return (
         <Fragment>
             <StyledHeader>
                 <h1>ReactMeals</h1>
-                <HeaderCartButton />
+                <HeaderCartButton showModal={showModal} />
             </StyledHeader>
             <MainImage>
                 <img src={mealsImage} alt="images" />

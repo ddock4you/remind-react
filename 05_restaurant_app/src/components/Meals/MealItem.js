@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import MealItemForm from "./MealItemForm";
 
 const StyledMealItem = styled.li`
     & {
@@ -26,15 +27,17 @@ const StyledMealItem = styled.li`
     }
 `;
 
-const MealItem = ({ name, description, price }) => {
+const MealItem = ({ id, name, description, price }) => {
     const convertPrice = `$${price.toFixed(2)}`;
-
     return (
         <StyledMealItem>
             <div>
                 <h3>{name}</h3>
                 <div className="description">{description}</div>
                 <div className="price">{convertPrice}</div>
+            </div>
+            <div>
+                <MealItemForm id={id} />
             </div>
         </StyledMealItem>
     );

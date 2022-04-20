@@ -64,9 +64,9 @@ const StyledButton = styled.button`
     }
 `;
 
-const HeaderCartButton = () => {
+const HeaderCartButton = ({ showModal }) => {
     return (
-        <StyledButton className="button">
+        <StyledButton className="button" onClick={showModal}>
             <span className="icon">
                 <CartIcon />
             </span>
