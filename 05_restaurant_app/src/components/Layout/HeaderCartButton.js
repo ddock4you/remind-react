@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import CartIcon from "../Carts/CartIcon";
+import CartContext from "../../store/cart-context";
 
 const StyledButton = styled.button`
     &.button {
@@ -65,13 +66,17 @@ const StyledButton = styled.button`
 `;
 
 const HeaderCartButton = ({ showModal }) => {
+    const cartCtx = useContext(CartContext);
+    const numberOfCartItems = cartCtx.items.reduce((curItem, item) => {
+        return curItem + item.amount;
+    }, 0);
     return (
         <StyledButton className="button" onClick={showModal}>
             <span className="icon">
                 <CartIcon />
             </span>
             <span>Your Cart</span>
-            <span className="badge">3</span>
+            <span className="badge">{numberOfCartItems}</span>
         </StyledButton>
     );
 };

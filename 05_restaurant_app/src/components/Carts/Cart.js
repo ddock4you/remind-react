@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import CartContext from "../../store/cart-context";
+import CartItem from "./CartItem";
 
 const StyledCart = styled.div`
     .cart-items {
@@ -51,10 +53,23 @@ const StyledCart = styled.div`
 `;
 
 const Cart = ({ hideModal }) => {
+    const cartCtx = useContext(CartContext);
+    const convertTotalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+    const hasItems = cartCtx.items.length > 0;
+
+    const cartItemAddHandler = (item) => {};
+
+    const cartItemRemoveHandler = (id) => {};
+
     const cartItem = (
         <ul className="cart-items">
-            {[{ id: "c1", name: "Sushi", amount: 2, price: 12.99 }].map((item) => (
-                <li key={item.id}>{item.name}</li>
+            {cartCtx.items.map((item) => (
+                <CartItem
+                    key={item.id}
+                    {...item}
+                    onAdd={cartItemAddHandler.bind(null, item)}
+                    onRemove={cartItemRemoveHandler.bind(null, item.id)}
+                />
             ))}
         </ul>
     );
@@ -64,13 +79,13 @@ const Cart = ({ hideModal }) => {
             {cartItem}
             <div className="total">
                 <span>Total Amount</span>
-                <span>35.62</span>
+                <span>{convertTotalAmount}</span>
             </div>
             <div className="actions">
                 <button className="button--alt" onClick={hideModal}>
                     Close
                 </button>
-                <button className="button">Order</button>
+                {hasItems && <button className="button">Order</button>}
             </div>
         </StyledCart>
     );
