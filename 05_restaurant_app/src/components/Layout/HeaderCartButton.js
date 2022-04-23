@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import CartIcon from "../Carts/CartIcon";
 import CartContext from "../../store/cart-context";
 
 const StyledButton = styled.button`
-    &.button {
+    & {
         cursor: pointer;
         font: inherit;
         border: none;
@@ -18,8 +18,8 @@ const StyledButton = styled.button`
         font-weight: bold;
     }
 
-    &.button:hover,
-    &.button:active {
+    &:hover,
+    &:active {
         background-color: #2c0d00;
     }
 
@@ -37,12 +37,12 @@ const StyledButton = styled.button`
         font-weight: bold;
     }
 
-    .button:hover .badge,
-    .button:active .badge {
+    &:hover .badge,
+    &:active .badge {
         background-color: #92320c;
     }
 
-    .bump {
+    &.bump {
         animation: bump 300ms ease-out;
     }
 
@@ -67,11 +67,26 @@ const StyledButton = styled.button`
 
 const HeaderCartButton = ({ showModal }) => {
     const cartCtx = useContext(CartContext);
-    const numberOfCartItems = cartCtx.items.reduce((curItem, item) => {
+    const { items } = cartCtx;
+    const [isPutInCart, setIsPutInCart] = useState(false);
+    useEffect(() => {
+        if (items.length <= 0) return;
+        const PutInCart = setIsPutInCart(true);
+
+        setTimeout(() => {
+            setIsPutInCart(false);
+        }, 300);
+
+        return () => {
+            clearInterval(PutInCart);
+        };
+    }, [items]);
+
+    const numberOfCartItems = items.reduce((curItem, item) => {
         return curItem + item.amount;
     }, 0);
     return (
-        <StyledButton className="button" onClick={showModal}>
+        <StyledButton className={isPutInCart ? "bump" : ""} onClick={showModal}>
             <span className="icon">
                 <CartIcon />
             </span>
