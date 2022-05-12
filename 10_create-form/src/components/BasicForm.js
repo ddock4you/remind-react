@@ -101,12 +101,33 @@ const BasicForm = (props) => {
         enterInputValid: nameInputValid,
     } = useForm((value) => value.trim() !== "");
 
+    const {
+        enterInputValue: enterLastNameValue,
+        enterInputIsValid: enterLastNameIsValid,
+        handleChangeInput: handleChangeLastName,
+        handleBlurInput: handleBlurLastName,
+        enterInputValidCondition: lastNameInputValidCondition,
+        enterInputValid: lastNameInputValid,
+    } = useForm((value) => value.trim() !== "");
+
+    const {
+        enterInputValue: enterEmailValue,
+        enterInputIsValid: enterEmailIsValid,
+        handleChangeInput: handleChangeEmail,
+        handleBlurInput: handleBlurEmail,
+        enterInputValidCondition: emailInputValidCondition,
+        enterInputValid: emailInputValid,
+    } = useForm((value) => value.includes("@"));
+
     const handleSubmit = (e) => {
         e.preventDefault();
     };
 
-    const formIsValid = !enterNameIsValid;
+    console.log({ enterNameIsValid, enterEmailIsValid, enterLastNameIsValid });
+    const formIsValid =
+        !enterNameIsValid || !enterEmailIsValid || !enterLastNameIsValid;
 
+    console.log({ formIsValid });
     return (
         <StyledForm onSubmit={handleSubmit}>
             <div className="control-group">
@@ -121,16 +142,34 @@ const BasicForm = (props) => {
                     />
                 </div>
                 {nameInputValidCondition && (
+                    <p className="error-text">First Name must not be empty.</p>
+                )}
+                <div className={lastNameInputValid}>
+                    <label htmlFor="lastname">Last Name</label>
+                    <input
+                        type="text"
+                        id="lastname"
+                        value={enterLastNameValue}
+                        onChange={handleChangeLastName}
+                        onBlur={handleBlurLastName}
+                    />
+                </div>
+                {lastNameInputValidCondition && (
+                    <p className="error-text">last name must not be empty.</p>
+                )}
+                <div className={emailInputValid}>
+                    <label htmlFor="email">E-Mail Address</label>
+                    <input
+                        type="text"
+                        id="email"
+                        value={enterEmailValue}
+                        onChange={handleChangeEmail}
+                        onBlur={handleBlurEmail}
+                    />
+                </div>
+                {emailInputValidCondition && (
                     <p className="error-text">Email must not be empty.</p>
                 )}
-                <div className="form-control">
-                    <label htmlFor="name">Last Name</label>
-                    <input type="text" id="name" />
-                </div>
-            </div>
-            <div className="form-control">
-                <label htmlFor="name">E-Mail Address</label>
-                <input type="text" id="name" />
             </div>
             <div className="form-actions">
                 <button disabled={formIsValid}>Submit</button>
