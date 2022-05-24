@@ -10,7 +10,7 @@ const AvailableMeals = () => {
 
     const getData = async () => {
         const response = await fetch(
-            "https://practice-http-react-default-rtdb.firebaseio.com/meals"
+            "https://practice-http-react-default-rtdb.firebaseio.com/meals.json"
         );
         const jsonData = await response.json();
 
