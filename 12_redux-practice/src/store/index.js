@@ -1,38 +1,64 @@
 import { legacy_createStore as createStore } from "redux";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 const initialState = { counter: 0, isShow: true };
 
-const counterReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case "INCREMENT":
-            return {
-                ...state,
-                counter: state.counter + 1,
-            };
+const counterSlice = createSlice({
+    name: "counter",
+    initialState,
+    reducers: {
+        increment(state) {
+            state.counter += 1;
+        },
+        decrement(state) {
+            state.counter -= 1;
+        },
+        increase(state, action) {
+            state.counter += action.payload;
+        },
+        toggleCounter(state) {
+            state.isShow = !state.isShow;
+        },
+    },
+});
 
-        case "DECREMENT":
-            return {
-                ...state,
-                counter: state.counter - 1,
-            };
+const store = configureStore({
+    reducer: counterSlice.reducer,
+});
 
-        case "INCREASE":
-            return {
-                ...state,
-                counter: state.counter + action.amount,
-            };
+export const counterActions = counterSlice.actions;
 
-        case "TOGGLE_COUNTER":
-            return {
-                ...state,
-                isShow: !state.isShow,
-            };
+// const counterReducer = (state = initialState, action) => {
+//     switch (action.type) {
+//         case "INCREMENT":
+//             return {
+//                 ...state,
+//                 counter: state.counter + 1,
+//             };
 
-        default:
-            return state;
-    }
-};
+//         case "DECREMENT":
+//             return {
+//                 ...state,
+//                 counter: state.counter - 1,
+//             };
 
-const store = createStore(counterReducer);
+//         case "INCREASE":
+//             return {
+//                 ...state,
+//                 counter: state.counter + action.amount,
+//             };
+
+//         case "TOGGLE_COUNTER":
+//             return {
+//                 ...state,
+//                 isShow: !state.isShow,
+//             };
+
+//         default:
+//             return state;
+//     }
+// };
+
+// const store = createStore(counterReducer);
 
 export default store;
