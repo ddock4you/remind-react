@@ -6,6 +6,9 @@ import Quotes from "./components/pages/Quotes";
 import NewQuote from "./components/pages/NewQuote";
 import Layout from "./components/layout/Layout";
 
+// page not found 페이지 필요
+// Route to="*"
+
 function App() {
     return (
         <Layout>
