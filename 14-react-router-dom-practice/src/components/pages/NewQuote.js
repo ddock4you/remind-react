@@ -1,8 +1,17 @@
+import { useHistory } from "react-router-dom";
+import QuoteForm from "../quotes/QuoteForm";
+
 const NewQuote = () => {
-    // NewCommentForm 연결
     // react-router-dom -> Prompt 사용
-    
-    return <h1>new quote</h1>;
+    const history = useHistory();
+
+    const addQuoteHandler = ({ author, text }) => {
+        console.log({ author, text });
+
+        history.push("/quotes");
+    };
+
+    return <QuoteForm onAddQuote={addQuoteHandler} />;
 };
 
 export default NewQuote;

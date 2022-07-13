@@ -1,5 +1,5 @@
 import { Route, useParams } from "react-router-dom";
-import Comments from '../comments/Comments';
+import Comments from "../comments/Comments";
 
 const QuotesDetail = () => {
     const params = useParams();

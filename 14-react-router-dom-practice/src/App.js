@@ -1,4 +1,4 @@
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import "./components/layout/Layout.module.css";
 import Nothing from "./components/pages/Nothing";
 import QuotesDetail from "./components/pages/QuotesDetail";
@@ -13,10 +13,6 @@ function App() {
     return (
         <Layout>
             <Switch>
-                <Route path="/" exact>
-                    <Redirect to="/nothing" />
-                </Route>
-
                 <Route path="/quotes" exact>
                     <Quotes />
                 </Route>
