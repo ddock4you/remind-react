@@ -1,4 +1,4 @@
-import { Route, useParams } from "react-router-dom";
+import { Route, Link, useParams } from "react-router-dom";
 import Comments from "../comments/Comments";
 
 const QuotesDetail = () => {
@@ -10,7 +10,14 @@ const QuotesDetail = () => {
         <>
             <h1>quotes_detail</h1>
             <p>{params.id}</p>
-            <Route to={`/quotes/${params.id}/comments`}>
+            <Route path={`/quotes/${params.id}`} exact>
+                <div className="centered">
+                    <Link className="btn--flat" to={`/quotes/${params.id}/comments`}>
+                        Load Comments
+                    </Link>
+                </div>
+            </Route>
+            <Route path={`/quotes/${params.id}/comments`}>
                 <Comments />
             </Route>
         </>
