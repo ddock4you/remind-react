@@ -1,11 +1,13 @@
 import React, { useState} from 'react';
 import ExpenseForm from './ExpenseForm';
 import './NewExpense.css';
+import {ExpenseData, NewExpenseProp} from '../../types/expenseData';
 
-const NewExpense = (props) => {
+const NewExpense = (props: NewExpenseProp) => {
     const [isAdding, setIsAdding] = useState(false);
     const toggleAdd = () => setIsAdding(!isAdding);
-    const makeExpenseData = (data) => {    
+    
+    const makeExpenseData = (data:ExpenseData) => {    
         const makeData = {
             ...data,
             id: Math.random()

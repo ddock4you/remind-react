@@ -38,7 +38,7 @@ const ExpenseForm = ({makeExpenseData, onToggle, isAdding}) => {
         event.preventDefault();
 
         const expenseDate = {
-            title,
+            title:string,
             amount,
             date: new Date(date)
         }
