@@ -1,11 +1,12 @@
 
-interface TodoText {
+interface TodoItemProp {
     text: string;
+    deleteTodo: () => void
 }
 
-const TodoItem = ({text}:TodoText) => {
+const TodoItem = ({text, deleteTodo}:TodoItemProp) => {
     return (
-        <li>{text}</li>
+        <li onClick={deleteTodo}>{text}</li>
     )
 }
 
