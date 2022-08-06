@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import {UserListProp} from '../../types/user';
 
 const ListItem = styled.li`
     & {
@@ -33,7 +34,11 @@ const ListItem = styled.li`
     }
 `;
 
-const UserListItem = ({ username, age, id, removeListItem }) => {
+interface UserListItemProp extends UserListProp {
+    removeListItem: (id:string) => void     
+}
+
+const UserListItem = ({ username, age, id, removeListItem }:UserListItemProp) => {
     const onClickListItem = () => {
         removeListItem(id);
     };

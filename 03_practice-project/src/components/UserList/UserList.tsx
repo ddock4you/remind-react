@@ -1,16 +1,23 @@
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 import ContentBackground from "../UI/ContentBackground";
 import UserListItem from "./UserListItem";
+import { UserListProp } from "../../types/user";
 
 const List = styled.ul``;
 
-const UserList = ({ list, removeListItem }) => {
+const UserList = ({
+    list,
+    removeListItem,
+}: {
+    list: UserListProp[];
+    removeListItem: (id: string) => void;
+}) => {
     return (
-        list.length !== 0 && (
-            <ContentBackground>
+        <ContentBackground>
+            {list.length !== 0 && (
                 <List>
-                    {list.map(({ id, username, age }) => {
+                    {list.map(({ id, username, age }: UserListProp) => {
                         return (
                             <UserListItem
                                 key={id}
@@ -22,8 +29,8 @@ const UserList = ({ list, removeListItem }) => {
                         );
                     })}
                 </List>
-            </ContentBackground>
-        )
+            )}
+        </ContentBackground>
     );
 };
 

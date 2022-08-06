@@ -2,7 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 
-const ModalBody = styled.div`
+import { ModalOptionProp } from "../../types/modal";
+
+const ModalBody = styled.div<{ isShow: boolean }>`
     & {
         display: ${({ isShow }) => (isShow ? "block" : "none")};
         position: fixed;
@@ -62,7 +64,11 @@ const ModalBody = styled.div`
     }
 `;
 
-const ModalOverlay = ({ isShow, headMessage, contentMessage, onClick }) => {
+interface Props extends ModalOptionProp {
+    onClick: () => void;
+}
+
+const ModalOverlay = ({ isShow, headMessage, contentMessage, onClick }: Props) => {
     return (
         <ModalBody isShow={isShow}>
             <div className="blackout"></div>
@@ -77,9 +83,15 @@ const ModalOverlay = ({ isShow, headMessage, contentMessage, onClick }) => {
     );
 };
 
-const Modal = ({ modalOption: { isShow, headMessage, contentMessage }, setModalOption }) => {
+const Modal = ({
+    modalOption: { isShow, headMessage, contentMessage },
+    setModalOption,
+}: {
+    modalOption: ModalOptionProp;
+    setModalOption: React.Dispatch<React.SetStateAction<ModalOptionProp>>;
+}) => {
     const onClick = () => {
-        setModalOption({ isModal: false, headMessage: null, ContentMessage: null });
+        setModalOption({ isShow: false, headMessage: null, contentMessage: null });
     };
 
     return ReactDOM.createPortal(
@@ -89,7 +101,7 @@ const Modal = ({ modalOption: { isShow, headMessage, contentMessage }, setModalO
             contentMessage={contentMessage}
             onClick={onClick}
         />,
-        document.querySelector(".modal")
+        document.querySelector(".modal") as HTMLDivElement
     );
 };
 

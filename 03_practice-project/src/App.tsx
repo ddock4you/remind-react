@@ -4,6 +4,9 @@ import { createGlobalStyle } from "styled-components";
 import UserList from "./components/UserList/UserList";
 import Modal from "./components/Modal/Modal";
 
+import { UserListProp } from "./types/user";
+import { ModalOptionProp } from "./types/modal";
+
 const GlobalStyle = createGlobalStyle`
     * {
         margin: 0;
@@ -22,17 +25,17 @@ const App = () => {
     // list [{
     //     id, username, age;
     // }]
-    const [list, setList] = useState([]);
-    const [modalOption, setModalOption] = useState({
+    const [list, setList] = useState<UserListProp[]>([]);
+    const [modalOption, setModalOption] = useState<ModalOptionProp>({
         isShow: false,
         headMessage: null,
-        ContentMessage: null,
+        contentMessage: null,
     });
 
-    const addList = (data) => {
+    const addList = (data: UserListProp) => {
         setList((prevList) => [...prevList, data]);
     };
-    const removeListItem = (removeId) => {
+    const removeListItem = (removeId: string) => {
         setList(list.filter(({ id }) => id !== removeId));
     };
 

@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import ContentBackground from "../UI/ContentBackground";
+import {UserListProp} from '../../types/user';
+import {ModalOptionProp} from '../../types/modal';
 
 // rafce
 
@@ -33,23 +35,27 @@ const Form = styled.form`
     }
 `;
 
-const UserForm = ({ addList, setModalOption }) => {
-    const usernameRef = useRef();
-    const ageRef = useRef();
+interface Props {
+    addList: (list:UserListProp) => void,
+    setModalOption: React.Dispatch<React.SetStateAction<ModalOptionProp>>
+}
+
+const UserForm = ({ addList, setModalOption }:Props) => {
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const ageRef = useRef<HTMLInputElement>(null);
 
     const [username, setUsername] = useState("");
     const [age, setAge] = useState("");
 
-    const onChangeUsername = (event) => {
+    const onChangeUsername = (event:React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
     };
 
-    const onChangeAge = (event) => {
+    const onChangeAge = (event:React.ChangeEvent<HTMLInputElement>) => {
         setAge(event.target.value.replace(/[^0-9]/g, ""));
     };
 
-    const onSubmit = (event) => {
-        const target = event.target;
+    const onSubmit = (event:React.FormEvent) => {
         event.preventDefault();
 
         if (username.length === 0) {
@@ -58,7 +64,7 @@ const UserForm = ({ addList, setModalOption }) => {
                 headMessage: "안내",
                 contentMessage: "Username이 비어있습니다.",
             });
-            target.username.focus();
+            usernameRef.current?.focus();
             return;
         }
 
@@ -68,11 +74,11 @@ const UserForm = ({ addList, setModalOption }) => {
                 headMessage: "안내",
                 contentMessage: "age가 비어있습니다.",
             });
-            target.age.focus();
+            ageRef.current?.focus();
             return;
         }
-        const id = Math.random();
-        addList({ id, username, age });
+        const id = Math.random().toString();
+        addList({ id, username, age:Number(age) });
         setUsername("");
         setAge("");
     };
