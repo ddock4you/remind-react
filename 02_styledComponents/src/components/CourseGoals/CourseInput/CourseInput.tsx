@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "../../UI/Button/Button";
 
-const FormControl = styled.div`
+const FormControl = styled.div<{isValid: boolean}>`
     & {
         margin: 0.5rem 0;
     }
@@ -31,11 +31,11 @@ const FormControl = styled.div`
     }
 `;
 
-const CourseInput = (props) => {
+const CourseInput = (props: {onAddGoal: (text:string) => void}) => {
     const [enteredValue, setEnteredValue] = useState("");
     const [isValid, setIsValid] = useState(false);
 
-    const goalInputChangeHandler = (event) => {
+    const goalInputChangeHandler = (event:React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.value.trim().length === 0) {
             setIsValid(false);
         } else {
@@ -44,7 +44,7 @@ const CourseInput = (props) => {
         setEnteredValue(event.target.value);
     };
 
-    const formSubmitHandler = (event) => {
+    const formSubmitHandler = (event:React.FormEvent) => {
         event.preventDefault();
         if (enteredValue.trim().length === 0) {
             setIsValid(false);

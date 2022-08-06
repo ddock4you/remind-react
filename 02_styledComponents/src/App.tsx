@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import {ThemeProvider} from 'styled-components';
 
 import CourseGoalList from './components/CourseGoals/CourseGoalList/CourseGoalList';
 import CourseInput from './components/CourseGoals/CourseInput/CourseInput';
+import {theme} from './style/common';
 import './App.css';
 
 const App = () => {
@@ -10,7 +12,7 @@ const App = () => {
     { text: 'Finish the course!', id: 'g2' }
   ]);
 
-  const addGoalHandler = enteredText => {
+  const addGoalHandler = (enteredText:string) => {
     setCourseGoals(prevGoals => {
       const updatedGoals = [...prevGoals];
       updatedGoals.unshift({ text: enteredText, id: Math.random().toString() });
@@ -18,7 +20,7 @@ const App = () => {
     });
   };
 
-  const deleteItemHandler = goalId => {
+  const deleteItemHandler = (goalId:string) => {
     setCourseGoals(prevGoals => {
       const updatedGoals = prevGoals.filter(goal => goal.id !== goalId);
       return updatedGoals;
@@ -36,7 +38,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <section id="goal-form">
         <CourseInput onAddGoal={addGoalHandler} />
       </section>
@@ -50,7 +52,7 @@ const App = () => {
         ) // <p style={{ textAlign: 'center' }}>No goals found. Maybe add one?</p>
         } */}
       </section>
-    </div>
+    </ThemeProvider>
   );
 };
 

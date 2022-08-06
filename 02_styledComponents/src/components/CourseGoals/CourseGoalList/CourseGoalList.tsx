@@ -2,8 +2,9 @@ import React from 'react';
 
 import CourseGoalItem from '../CourseGoalItem/CourseGoalItem';
 import './CourseGoalList.css';
-
-const CourseGoalList = props => {
+import {courseData} from '../../../types/course';
+ 
+const CourseGoalList = (props:{items:courseData[], onDeleteItem: (id:string) => void}) => {
   return (
     <ul className="goal-list">
       {props.items.map(goal => (
