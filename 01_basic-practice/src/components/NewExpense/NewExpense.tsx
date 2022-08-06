@@ -10,7 +10,7 @@ const NewExpense = (props: NewExpenseProp) => {
     const makeExpenseData = (data:ExpenseData) => {    
         const makeData = {
             ...data,
-            id: Math.random()
+            id: String(Math.random())
         }
         props.addExpenseData(makeData);
     }

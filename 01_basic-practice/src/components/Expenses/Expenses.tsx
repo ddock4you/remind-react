@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import Card from '../UI/Card';
 import ExpensesFilter from "./ExpensesFilter";
 import ExpensesList from "./ExpensesList";
@@ -6,10 +6,11 @@ import ExpensesList from "./ExpensesList";
 import './Expenses.css';
 import './ExpenseItem.css';
 import ExpensesChart from "./ExpensesChart";
+import {ExpenseData} from '../../types/expenseData';
 
-const Expenses = ({expenses}) => {
+const Expenses = ({expenses}:{expenses: ExpenseData[]}) => {
     const [filteredYear, setFilteredYear] = useState('2020');
-    const filterChangeHandler = (value) => setFilteredYear(value);
+    const filterChangeHandler = (value:string) => setFilteredYear(value);
     const filteredExpenses = expenses.filter(
         ({ date }) => String(date.getFullYear()) === filteredYear
     );    

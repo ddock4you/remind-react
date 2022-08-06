@@ -1,7 +1,12 @@
-import React from "react";
+import React from 'react';
 import "./Card.css";
 
-const Card = (props) => {
+interface CardProp {
+    className: string,
+    children: React.ReactNode
+}
+
+const Card = (props: CardProp) => {
     const classes = "card " + props.className;
     return <div className={classes}>{props.children}</div>;
 };

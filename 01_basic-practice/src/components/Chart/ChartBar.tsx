@@ -2,7 +2,13 @@ import React from 'react';
 
 import './ChartBar.css';
 
-const ChartBar = (props) => {
+interface ChartBarProp {
+  value: number,
+  maxValue: number,
+  label: string
+}
+
+const ChartBar = (props:ChartBarProp) => {
   let barFillHeight = '0%';
 
   if (props.maxValue > 0) {

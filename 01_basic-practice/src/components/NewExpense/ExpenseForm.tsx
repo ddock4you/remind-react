@@ -1,7 +1,14 @@
 import React, { useState} from "react";
 import "./ExpenseForm.css";
+import {ExpenseData} from '../../types/expenseData';
 
-const ExpenseForm = ({makeExpenseData, onToggle, isAdding}) => {
+interface ExpenseFormProp {
+    makeExpenseData: (data:ExpenseData) => void,
+    onToggle: () => void,
+    isAdding: boolean
+}
+
+const ExpenseForm = ({makeExpenseData, onToggle, isAdding}:ExpenseFormProp) => {
     const [title, setTitle] = useState('');
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState('');
@@ -19,27 +26,27 @@ const ExpenseForm = ({makeExpenseData, onToggle, isAdding}) => {
     //     date: 'date'
     // });
 
-    const titleChangeHandler = (event) => {
+    const titleChangeHandler = (event:React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value);
         // setUserInput((prevState) => {
         //     return {...prevState, title: event.target.value}
         // })
     }
 
-    const amountChangeHandler = (event) => {
+    const amountChangeHandler = (event:React.ChangeEvent<HTMLInputElement>) => {
         setAmount(event.target.value);       
     }
 
-    const dateChangeHandler = (event) => {
+    const dateChangeHandler = (event:React.ChangeEvent<HTMLInputElement>) => {
         setDate(event.target.value);
     }
 
-    const submitHandler = (event) => {
+    const submitHandler = (event:React.FormEvent) => {
         event.preventDefault();
 
         const expenseDate = {
-            title:string,
-            amount,
+            title,
+            amount: Number(amount),
             date: new Date(date)
         }
         makeExpenseData(expenseDate);

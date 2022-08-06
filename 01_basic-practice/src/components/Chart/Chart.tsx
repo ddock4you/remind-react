@@ -1,8 +1,9 @@
 import React from "react";
 import ChartBar from "./ChartBar";
 import "./Chart.css";
+import {MonthData} from '../../types/expenseData';
 
-const Chart = (props) => {
+const Chart = (props:{dataPoints: MonthData[]}) => {
     const dataPointValues = props.dataPoints.map((dataPoint) => dataPoint.value);
     const totalMaximum = Math.max(...dataPointValues);
 
