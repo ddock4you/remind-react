@@ -5,10 +5,30 @@ import Button from "../UI/Button/Button";
 import Input from "../UI/Input";
 import AuthContext from "../../store/auth";
 
-const emailReducer = (state, action) => {
+interface EmailProp {
+    value: string;
+    isValid: boolean | null;
+}
+
+interface EmailActionProp {
+    type: string;
+    value?: string | null;
+}
+
+interface PasswordProp {
+    value: string;
+    isValid: boolean | null;
+}
+
+interface PasswordActionProp {
+    type: string;
+    value?: string | null;
+}
+
+const emailReducer = (state: EmailProp, action: EmailActionProp): EmailProp => {
     const { type, value } = action;
     if (type === "INPUT_EMAIL") {
-        return { value, isValid: value.includes("@") };
+        return { value: value!, isValid: value!.includes("@") };
     }
     if (type === "SUBMIT_VALID_EMAIL") {
         return { value: state.value, isValid: state.value.includes("@") };
@@ -16,12 +36,12 @@ const emailReducer = (state, action) => {
     return { value: "", isValid: false };
 };
 
-const passwordReducer = (state, action) => {
+const passwordReducer = (state: PasswordProp, action: PasswordActionProp): PasswordProp => {
     const { type, value } = action;
     const MIN_LENGTH = 6;
 
     if (type === "INPUT_PASSWORD") {
-        return { value, isValid: value.trim().length > MIN_LENGTH };
+        return { value: value!, isValid: value!.trim().length > MIN_LENGTH };
     }
     if (type === "SUBMIT_VALID_PASSWORD") {
         return { value: state.value, isValid: state.value.trim().length > MIN_LENGTH };
@@ -39,11 +59,13 @@ const Login = () => {
         value: "",
         isValid: null,
     });
-    const [formIsValid, setFormIsValid] = useState(false);
+    console.log(emailState.value, passwordState.value);
+
+    const [formIsValid, setFormIsValid] = useState<boolean | null>(false); // typescript 수정필요
     const { isValid: emailIsValid } = emailState;
     const { isValid: passwordIsValid } = passwordState;
-    const emailInputRef = useRef();
-    const passwordInputRef = useRef();
+    const emailInputRef = useRef<HTMLInputElement>(null);
+    const passwordInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         console.log("start");
@@ -56,11 +78,11 @@ const Login = () => {
         };
     }, [emailIsValid, passwordIsValid]);
 
-    const emailChangeHandler = (event) => {
+    const emailChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatchEmail({ type: "INPUT_EMAIL", value: event.target.value });
     };
 
-    const passwordChangeHandler = (event) => {
+    const passwordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatchPassword({ type: "INPUT_PASSWORD", value: event.target.value });
     };
 
@@ -72,14 +94,14 @@ const Login = () => {
         dispatchPassword({ type: "SUBMIT_VALID_PASSWORD" });
     };
 
-    const submitHandler = (event) => {
+    const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
         if (formIsValid) {
             authCtx.onLogin(emailState.value, passwordState.value);
         } else if (!emailIsValid) {
-            emailInputRef.current.focus();
+            emailInputRef.current!.focus();
         } else {
-            passwordInputRef.current.focus();
+            passwordInputRef.current!.focus();
         }
     };
 

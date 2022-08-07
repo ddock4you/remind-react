@@ -48,10 +48,20 @@ const StyledInput = styled.div`
     }
 `;
 
-const Input = forwardRef(({ name, type, id, value, onChange, onBlur, isValid }, ref) => {
-    const inputRef = useRef();
+interface InputProp {
+    name: string;
+    type: string;
+    id: string;
+    value: string;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onBlur: () => void;
+    isValid: boolean | null;
+}
+
+const Input = forwardRef(({ name, type, id, value, onChange, onBlur, isValid }: InputProp, ref) => {
+    const inputRef = useRef<HTMLInputElement>(null);
     const activate = () => {
-        inputRef.current.focus();
+        inputRef.current?.focus();
     };
 
     useImperativeHandle(ref, () => {
