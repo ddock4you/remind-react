@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import Input from "../UI/Input";
+import { InputProp } from "../../types/ui";
 
 const StyledForm = styled.form`
     & {
@@ -25,9 +26,15 @@ const StyledForm = styled.form`
     }
 `;
 
-const MealItemForm = ({ id: mealId, onAddToCart }) => {
+const MealItemForm = ({
+    id: mealId,
+    onAddToCart,
+}: {
+    id: string;
+    onAddToCart: (amount: number) => void;
+}) => {
     const [isAmountValid, setIsAmountValid] = useState(true);
-    const inputOption = {
+    const inputOption: InputProp = {
         id: mealId,
         type: "number",
         min: "1",
@@ -36,11 +43,11 @@ const MealItemForm = ({ id: mealId, onAddToCart }) => {
         defaultValue: "1",
     };
 
-    const inputRef = useRef();
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    const submitHandler = (event) => {
+    const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
-        const enteredAmount = inputRef.current.value;
+        const enteredAmount = inputRef.current!.value;
         const enteredAmountNumber = +enteredAmount;
 
         if (

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import CartContext from "../../store/cart-context";
+import { FoodInfo } from "../../types/food";
 import CartItem from "./CartItem";
 
 const StyledCart = styled.div`
@@ -52,16 +53,16 @@ const StyledCart = styled.div`
     }
 `;
 
-const Cart = ({ hideModal }) => {
+const Cart = ({ hideModal }: { hideModal: () => void }) => {
     const cartCtx = useContext(CartContext);
     const convertTotalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
     const hasItems = cartCtx.items.length > 0;
 
-    const cartItemAddHandler = (item) => {
+    const cartItemAddHandler = (item: FoodInfo) => {
         cartCtx.addItem({ ...item, amount: 1 });
     };
 
-    const cartItemRemoveHandler = (id) => {
+    const cartItemRemoveHandler = (id: string) => {
         cartCtx.removeItem(id);
     };
 
@@ -72,7 +73,7 @@ const Cart = ({ hideModal }) => {
                     key={item.id}
                     {...item}
                     onAdd={cartItemAddHandler.bind(null, item)}
-                    onRemove={cartItemRemoveHandler.bind(null, item.id)}
+                    onRemove={cartItemRemoveHandler.bind(null, item.id!)}
                 />
             ))}
         </ul>

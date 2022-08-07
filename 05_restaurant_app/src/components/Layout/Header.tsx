@@ -37,7 +37,7 @@ const MainImage = styled.div`
     }
 `;
 
-const Header = ({ showModal }) => {
+const Header = ({ showModal }: { showModal: () => void }) => {
     return (
         <Fragment>
             <StyledHeader>

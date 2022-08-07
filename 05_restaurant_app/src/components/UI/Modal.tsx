@@ -47,7 +47,12 @@ const Backdrop = styled.div`
     }
 `;
 
-const ModalOverlay = ({ hideModal, children }) => {
+interface ModalProp {
+    hideModal: () => void;
+    children: React.ReactNode;
+}
+
+const ModalOverlay = ({ hideModal, children }: ModalProp) => {
     return (
         <Fragment>
             <Backdrop onClick={hideModal} />
@@ -60,10 +65,10 @@ const ModalOverlay = ({ hideModal, children }) => {
 
 const portalElement = document.querySelector("#overlays");
 
-const Modal = ({ hideModal, children }) => {
+const Modal = ({ hideModal, children }: ModalProp) => {
     return ReactDom.createPortal(
         <ModalOverlay hideModal={hideModal}>{children}</ModalOverlay>,
-        portalElement
+        portalElement as HTMLDivElement
     );
 };
 

@@ -1,4 +1,6 @@
+import React from "react";
 import styled from "styled-components";
+import { FoodInfo } from "../../types/food";
 
 const StyledCartItem = styled.li`
     & {
@@ -68,7 +70,12 @@ const StyledCartItem = styled.li`
     }
 `;
 
-const CartItem = ({ price, name, amount, onRemove, onAdd }) => {
+interface CartItemProp extends FoodInfo {
+    onRemove: () => void;
+    onAdd: () => void;
+}
+
+const CartItem = ({ price, name, amount, onRemove, onAdd }: CartItemProp) => {
     const convertPrice = `$${price.toFixed(2)}`;
 
     return (

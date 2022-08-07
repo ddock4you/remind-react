@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import CartIcon from "../Carts/CartIcon";
 import CartContext from "../../store/cart-context";
+import { FoodInfo } from "../../types/food";
 
 const StyledButton = styled.button`
     & {
@@ -65,15 +66,14 @@ const StyledButton = styled.button`
     }
 `;
 
-const HeaderCartButton = ({ showModal }) => {
+const HeaderCartButton = ({ showModal }: { showModal: () => void }) => {
     const cartCtx = useContext(CartContext);
-    const { items } = cartCtx;
+    const { items }: any = cartCtx;
     const [isPutInCart, setIsPutInCart] = useState(false);
     useEffect(() => {
         if (items.length <= 0) return;
-        const PutInCart = setIsPutInCart(true);
 
-        setTimeout(() => {
+        const PutInCart = setTimeout(() => {
             setIsPutInCart(false);
         }, 300);
 
@@ -82,9 +82,10 @@ const HeaderCartButton = ({ showModal }) => {
         };
     }, [items]);
 
-    const numberOfCartItems = items.reduce((curItem, item) => {
-        return curItem + item.amount;
+    const numberOfCartItems = items.reduce((curItem: number = 0, item: FoodInfo) => {
+        return curItem + item.amount!;
     }, 0);
+    console.log(items);
     return (
         <StyledButton className={isPutInCart ? "bump" : ""} onClick={showModal}>
             <span className="icon">

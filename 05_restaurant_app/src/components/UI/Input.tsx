@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react";
 import styled from "styled-components";
+import { InputProp } from "../../types/ui";
 
 const StyledInput = styled.div`
     & {
@@ -23,13 +24,18 @@ const StyledInput = styled.div`
     }
 `;
 
-const Input = forwardRef(({ label, input }, ref) => {
-    return (
-        <StyledInput>
-            <label htmlFor={input.id}>{label}</label>
-            <input ref={ref} {...input} />
-        </StyledInput>
-    );
-});
+const Input = forwardRef(
+    (
+        { label, input }: { label: string; input: InputProp },
+        ref: React.ForwardedRef<HTMLInputElement>
+    ) => {
+        return (
+            <StyledInput>
+                <label htmlFor={input.id}>{label}</label>
+                <input ref={ref} {...input} />
+            </StyledInput>
+        );
+    }
+);
 
 export default Input;
