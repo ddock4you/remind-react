@@ -8,7 +8,7 @@ function App() {
     const [showParagraph, setShowParagraph] = useState(false);
     const [allowToggle, setAllowToggle] = useState(false);
 
-    console.log("APP RUNNING");
+    console.log("APP RUNNING", showParagraph);
 
     const toggleParagraphHandler = useCallback(() => {
         if (allowToggle) {
