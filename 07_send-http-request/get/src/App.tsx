@@ -2,19 +2,20 @@ import React, { useEffect, useState, useCallback } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
+import { GetMovieItem, MovieItem } from "./types/movie";
 
 function App() {
-    const [movies, setMovies] = useState([]);
+    const [movies, setMovies] = useState<MovieItem[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const fetchMoviesHandler = useCallback(async () => {
-        try { 
+        try {
             setErrorMessage(null);
             setIsLoading(true);
             const response = await fetch(`https://swapi.dev/api/films/`);
             const data = await response.json();
-            const convertData = data.results.map((movie) => ({
+            const convertData = data.results.map((movie: GetMovieItem) => ({
                 id: movie.episode_id,
                 title: movie.title,
                 openingText: movie.opening_crawl,
@@ -22,7 +23,8 @@ function App() {
             }));
             setMovies(convertData);
         } catch (error) {
-            setErrorMessage(error.message);
+            const err: any = error;
+            setErrorMessage(err.message);
         }
         setIsLoading(false);
     }, []);
@@ -41,9 +43,7 @@ function App() {
             <section>
                 <button onClick={fetchMoviesHandler}>Fetch Movies</button>
             </section>
-            <section>
-               {content} 
-            </section>
+            <section>{content}</section>
         </React.Fragment>
     );
 }
