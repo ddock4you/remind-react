@@ -1,18 +1,21 @@
 import { useCallback, useState } from "react";
+import { FetchType, applyDataFunc } from "../types/fetchType";
+
+interface httpError {
+    message: string;
+}
 
 const useHttp = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
 
-    const sendRequest = useCallback(async (requestConfig, applyData) => {
+    const sendRequest = useCallback(async (requestConfig: FetchType, applyData: applyDataFunc) => {
         setIsLoading(true);
         setError(null);
         try {
             const response = await fetch(requestConfig.url, {
                 method: requestConfig.method ? requestConfig.method : "GET",
-                body: requestConfig.body
-                    ? JSON.stringify(requestConfig.body)
-                    : null,
+                body: requestConfig.body ? JSON.stringify(requestConfig.body) : null,
                 headers: requestConfig.headers ? requestConfig.headers : {},
             });
 
@@ -23,7 +26,8 @@ const useHttp = () => {
             const data = await response.json();
             applyData(data);
         } catch (err) {
-            setError(err.message || "Something went wrong!");
+            const error = err as httpError;
+            setError(error.message || "Something went wrong!");
         }
         setIsLoading(false);
     }, []);
