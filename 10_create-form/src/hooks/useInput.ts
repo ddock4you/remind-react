@@ -1,13 +1,14 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { ValidCheck } from "../types/form";
 
-const useInput = (valueCheck) => {
-    const InputRef = useRef();
+const useInput = (valueCheck: ValidCheck) => {
+    const InputRef = useRef<HTMLInputElement>(null);
     const [enteredInput, setEnteredInput] = useState("");
     const [enteredInputTouched, setEnteredInputTouched] = useState(false);
     const enteredInputIsValid = valueCheck(enteredInput);
 
-    const handleChangeInput = (event) => {
-        setEnteredInput(event.target.value);
+    const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEnteredInput(event.target!.value);
     };
 
     const reset = () => {
@@ -19,9 +20,7 @@ const useInput = (valueCheck) => {
     };
 
     const isValid =
-        enteredInputTouched && !enteredInputIsValid
-            ? "form-control invalid"
-            : "form-control";
+        enteredInputTouched && !enteredInputIsValid ? "form-control invalid" : "form-control";
 
     return {
         InputRef,

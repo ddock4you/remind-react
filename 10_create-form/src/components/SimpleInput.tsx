@@ -1,6 +1,7 @@
+import React from "react";
 import useInput from "../hooks/useInput";
 
-const SimpleInput = (props) => {
+const SimpleInput = () => {
     const {
         InputRef: nameInputRef,
         enteredInput: enteredName,
@@ -25,11 +26,11 @@ const SimpleInput = (props) => {
 
     const formIsValid = !enteredNameIsValid && !enteredEmailIsValid;
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         if (!enteredName || !enteredEmail) return;
-        resetName(true);
-        resetEmail(true);
+        resetName();
+        resetEmail();
     };
 
     return (

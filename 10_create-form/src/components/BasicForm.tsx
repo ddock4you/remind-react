@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import useForm from "../hooks/useForm";
 
@@ -91,7 +91,7 @@ const StyledForm = styled.form`
     }
 `;
 
-const BasicForm = (props) => {
+const BasicForm = () => {
     const {
         enterInputValue: enterNameValue,
         enterInputIsValid: enterNameIsValid,
@@ -119,13 +119,12 @@ const BasicForm = (props) => {
         enterInputValid: emailInputValid,
     } = useForm((value) => value.includes("@"));
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
     };
 
     console.log({ enterNameIsValid, enterEmailIsValid, enterLastNameIsValid });
-    const formIsValid =
-        !enterNameIsValid || !enterEmailIsValid || !enterLastNameIsValid;
+    const formIsValid = !enterNameIsValid || !enterEmailIsValid || !enterLastNameIsValid;
 
     console.log({ formIsValid });
     return (
@@ -167,9 +166,7 @@ const BasicForm = (props) => {
                         onBlur={handleBlurEmail}
                     />
                 </div>
-                {emailInputValidCondition && (
-                    <p className="error-text">Email must not be empty.</p>
-                )}
+                {emailInputValidCondition && <p className="error-text">Email must not be empty.</p>}
             </div>
             <div className="form-actions">
                 <button disabled={formIsValid}>Submit</button>
