@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import Card from "../UI/Card";
 import MealItem from "./MealItem/MealItem";
 import classes from "./AvailableMeals.module.css";
+import { Food } from "../../types/food";
 
 const AvailableMeals = () => {
-    const [meals, setMeals] = useState([]);
+    const [meals, setMeals] = useState<Food[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [httpError, setHttpError] = useState(null);
 
@@ -14,7 +15,7 @@ const AvailableMeals = () => {
         );
         const jsonData = await response.json();
 
-        const convertData = Object.keys(jsonData).map((id) => ({
+        const convertData = Object.keys(jsonData).map<Food>((id) => ({
             id,
             name: jsonData[id].name,
             description: jsonData[id].description,

@@ -1,29 +1,35 @@
-import { useRef, useState } from "react";
+import { useRef, useState, FormEvent } from "react";
 import classes from "./Checkout.module.css";
 
-const isValid = (value) => value.trim() === "";
-const postValid = (value) =>
+import { UserProp } from "../../types/user";
+import { HideCart } from "../../types/ui";
+
+const isValid = (value: string) => value.trim() === "";
+const postValid = (value: string) =>
     !Number.isNaN(Number(value.trim())) && value.trim().length === 5;
 
-const Checkout = (props) => {
+const Checkout = (props: {
+    onConfirm: (userData: UserProp) => Promise<void>;
+    onCancel: HideCart;
+}) => {
     const [formInputValidity, setFormInputValidity] = useState({
         name: true,
         street: true,
         postal: true,
         city: true,
     });
-    const nameInputRef = useRef();
-    const streetInputRef = useRef();
-    const postalInputRef = useRef();
-    const cityInputRef = useRef();
+    const nameInputRef = useRef<HTMLInputElement>(null);
+    const streetInputRef = useRef<HTMLInputElement>(null);
+    const postalInputRef = useRef<HTMLInputElement>(null);
+    const cityInputRef = useRef<HTMLInputElement>(null);
 
-    const confirmHandler = (event) => {
+    const confirmHandler = (event: FormEvent) => {
         event.preventDefault();
 
-        const enteredName = nameInputRef.current.value;
-        const enteredStreet = streetInputRef.current.value;
-        const enteredPostal = postalInputRef.current.value;
-        const enteredCity = cityInputRef.current.value;
+        const enteredName = nameInputRef.current!.value;
+        const enteredStreet = streetInputRef.current!.value;
+        const enteredPostal = postalInputRef.current!.value;
+        const enteredCity = cityInputRef.current!.value;
 
         const enteredNameIsValid = !isValid(enteredName);
         const enteredStreetIsValid = !isValid(enteredStreet);
@@ -52,15 +58,11 @@ const Checkout = (props) => {
             });
     };
 
-    const nameInvalidClass = `${classes.control} ${
-        formInputValidity.name ? "" : classes.invalid
-    }`;
+    const nameInvalidClass = `${classes.control} ${formInputValidity.name ? "" : classes.invalid}`;
     const streetInvalidClass = `${classes.control} ${
         formInputValidity.street ? "" : classes.invalid
     }`;
-    const cityInvalidClass = `${classes.control} ${
-        formInputValidity.city ? "" : classes.invalid
-    }`;
+    const cityInvalidClass = `${classes.control} ${formInputValidity.city ? "" : classes.invalid}`;
     const postalInvalidClass = `${classes.control} ${
         formInputValidity.postal ? "" : classes.invalid
     }`;
