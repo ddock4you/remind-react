@@ -1,3 +1,4 @@
+import { FormEvent } from "react";
 import { useDispatch } from "react-redux";
 import classes from "./Auth.module.css";
 import { authActions } from "../store/auth";
@@ -6,7 +7,7 @@ const Auth = () => {
     const dispatch = useDispatch();
     const { login } = authActions;
 
-    const handleLogin = (e) => {
+    const handleLogin = (e: FormEvent) => {
         e.preventDefault();
         dispatch(login());
     };
