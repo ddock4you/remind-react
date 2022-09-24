@@ -1,10 +1,11 @@
 import classes from "./CartButton.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../hooks/storeHooks";
 import { cartUiActions } from "../../store/cartUi";
 
-const CartButton = (props) => {
+const CartButton = () => {
     const dispatch = useDispatch();
-    const { totalNumber } = useSelector(({ cartCarculate }) => cartCarculate);
+    const { totalNumber } = useAppSelector(({ cartCarculate }) => cartCarculate);
     const { toggleVisibleCart } = cartUiActions;
 
     const handleToggleCart = () => {

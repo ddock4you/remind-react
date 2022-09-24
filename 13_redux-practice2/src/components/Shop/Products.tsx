@@ -16,10 +16,8 @@ const itemList = [
     },
 ];
 
-const Products = (props) => {
-    const ItemListComponent = itemList.map((item) => (
-        <ProductItem {...item} key={item.id} />
-    ));
+const Products = () => {
+    const ItemListComponent = itemList.map((item) => <ProductItem {...item} key={item.id} />);
 
     return (
         <section className={classes.products}>

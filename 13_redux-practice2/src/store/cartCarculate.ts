@@ -1,17 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { cartUiActions } from "./cartUi";
+import { NotificationProp } from "../types/cartUi";
+import { CartProp } from "../types/cartItem";
 
 // {
 //     id, title, sumPrices, numbers;
 // }
 
+const initialState: CartProp = {
+    items: [],
+    totalPrice: 0,
+    totalNumber: 0,
+};
+
 const cartCalculateSlice = createSlice({
     name: "cartCalculate",
-    initialState: {
-        items: [],
-        totalPrice: 0,
-        totalNumber: 0,
-    },
+    initialState,
     reducers: {
         addItem(state, action) {
             const { id, price, title } = action.payload;
@@ -19,7 +23,7 @@ const cartCalculateSlice = createSlice({
 
             if (findItem) {
                 findItem.sumPrices += price;
-                findItem.numbers += 1;
+                findItem.numbers! += 1;
             } else {
                 state.items.push({
                     id,
@@ -34,13 +38,13 @@ const cartCalculateSlice = createSlice({
         },
         removeItem(state, action) {
             const id = action.payload;
-            const findItem = state.items.find((item) => item.id === id);
+            const findItem = state.items.find((item) => item.id === id)!;
 
             if (findItem.numbers === 1) {
                 state.items = state.items.filter((item) => item.id !== id);
             } else {
-                findItem.sumPrices -= findItem.price;
-                findItem.numbers -= 1;
+                findItem.sumPrices! -= findItem.price;
+                findItem.numbers! -= 1;
             }
 
             state.totalPrice -= findItem.price;
@@ -49,8 +53,8 @@ const cartCalculateSlice = createSlice({
     },
 });
 
-export const sendCartData = (cart) => {
-    return async (dispatch) => {
+export const sendCartData = (cart: CartProp) => {
+    return async (dispatch: (arg: PayloadAction<NotificationProp>) => void): Promise<any> => {
         const { showNotification } = cartUiActions;
 
         dispatch(
@@ -62,13 +66,10 @@ export const sendCartData = (cart) => {
         );
 
         const sendRequest = async () => {
-            const response = await fetch(
-                "https://practice-http-react-default-rtdb.firebaseio.com/cart.json",
-                {
-                    method: "PUT",
-                    body: JSON.stringify(cart),
-                }
-            );
+            await fetch("https://practice-http-react-default-rtdb.firebaseio.com/cart.json", {
+                method: "PUT",
+                body: JSON.stringify(cart),
+            });
         };
 
         try {

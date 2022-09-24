@@ -1,6 +1,7 @@
 import classes from "./Notification.module.css";
+import { NotificationProp } from "../../types/cartUi";
 
-const Notification = (props) => {
+const Notification = (props: NotificationProp) => {
     let specialClasses = "";
 
     if (props.status === "error") {

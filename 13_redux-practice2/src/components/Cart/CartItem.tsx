@@ -1,10 +1,11 @@
 import { useDispatch } from "react-redux";
 import { cartCalculateActions } from "../../store/cartCarculate";
+import { CartItemProp } from "../../types/cartItem";
 import classes from "./CartItem.module.css";
 
-const CartItem = (props) => {
+const CartItem = (props: { item: CartItemProp }) => {
     const dispatch = useDispatch();
-    const { id, title, quantity, total, price } = props.item;
+    const { id, title, numbers, sumPrices, price } = props.item;
     const { addItem, removeItem } = cartCalculateActions;
 
     const handleAddItem = () => {
@@ -20,15 +21,13 @@ const CartItem = (props) => {
             <header>
                 <h3>{title}</h3>
                 <div className={classes.price}>
-                    ${total.toFixed(2)}{" "}
-                    <span className={classes.itemprice}>
-                        (${price.toFixed(2)}/item)
-                    </span>
+                    ${sumPrices!.toFixed(2)}{" "}
+                    <span className={classes.itemprice}>(${price.toFixed(2)}/item)</span>
                 </div>
             </header>
             <div className={classes.details}>
-                <div className={classes.quantity}>
-                    x <span>{quantity}</span>
+                <div className={classes.numbers}>
+                    x <span>{numbers}</span>
                 </div>
                 <div className={classes.actions}>
                     <button onClick={handleRemoveItem}>-</button>
