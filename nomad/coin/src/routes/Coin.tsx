@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Chart from "./Chart";
 import Price from "./Price";
 import { fetchInfo, fetchPrice } from "../api";
+import { useRecoilValue } from "recoil";
+import { selectTheme } from "../atoms/theme";
 
 const Title = styled.h1`
     font-size: 48px;
@@ -24,8 +26,14 @@ const Container = styled.div`
 const Header = styled.header`
     height: 15vh;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+
+    & .back-button {
+        padding: 8px;
+        background-color: green;
+        color: #fff;
+    }
 `;
 
 const Overview = styled.div`
@@ -34,6 +42,7 @@ const Overview = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
     padding: 10px 20px;
     border-radius: 10px;
+    color: ${(props) => props.theme.textColor};
 `;
 const OverviewItem = styled.div`
     display: flex;
@@ -48,6 +57,7 @@ const OverviewItem = styled.div`
 `;
 const Description = styled.p`
     margin: 20px 0px;
+    color: ${({ theme: { textColor } }) => textColor};
 `;
 
 const Tabs = styled.div`
@@ -97,7 +107,7 @@ interface InfoData {
     first_data_at: string;
     last_data_at: string;
 }
-interface PriceData {
+export interface PriceData {
     id: string;
     name: string;
     symbol: string;
@@ -140,6 +150,7 @@ function Coin() {
     const { isLoading: priceLoading, data: priceData } = useQuery<PriceData>(["info", coinId], () =>
         fetchPrice(coinId)
     );
+    const isLight = useRecoilValue(selectTheme);
 
     const priceMatch = useRouteMatch("/:coinId/price");
     const chartMatch = useRouteMatch("/:coinId/chart");
@@ -159,12 +170,16 @@ function Coin() {
     //         setLoading(false);
     //     })();
     // }, [coinId]);
-
+    console.log(priceData);
+    console.log(infoData);
     const loading = infoLoading && priceLoading;
     return (
         <Container>
             <Header>
                 <Title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</Title>
+                <Link className="back-button" to={`/`}>
+                    뒤로가기
+                </Link>
             </Header>
             {loading ? (
                 <Loader>Loading...</Loader>
@@ -206,10 +221,10 @@ function Coin() {
                     </Tabs>
                     <Switch>
                         <Route path={"/:coinId/chart"}>
-                            <Chart />
+                            <Chart isLight={isLight} coinId={coinId} />
                         </Route>
                         <Route path={"/:coinId/price"}>
-                            <Price />
+                            <Price price={priceData} />
                         </Route>
                     </Switch>
                 </>
